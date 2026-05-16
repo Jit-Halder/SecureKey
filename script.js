@@ -240,7 +240,9 @@
         const seconds = calcCrackSeconds(entropy);
 
         let level;
-        if (seconds < 60) {
+        if (seconds < 1) {
+            level = { label: 'Weak',     color: 'var(--red)',    pct: 10 };
+        } else if (seconds < 60) {
             level = { label: 'Weak',     color: 'var(--red)',    pct: 20 };
         } else if (seconds < 86400) {
             level = { label: 'Fair',     color: 'var(--orange)', pct: 40 };
@@ -259,7 +261,7 @@
 
         // Crack time
         const timeStr = estimateCrackTime(pw);
-        crackTime.textContent = `⏱ ${timeStr} to crack`;
+        crackTime.textContent = timeStr === 'Instantly' ? '⏱ Cracked instantly' : `⏱ ${timeStr} to crack`;
         crackTime.style.color = level.color;
     }
 
