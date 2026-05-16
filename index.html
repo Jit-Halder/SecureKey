@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureKey — Password Generator</title>
+    <meta name="description" content="Generate strong, secure passwords instantly with customizable length and character options.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="bg-orbs" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <main class="container">
+        <header class="header">
+            <div class="logo">
+                <svg class="logo-icon" viewBox="0 0 40 40" fill="none">
+                    <rect x="4" y="18" width="32" height="20" rx="4" stroke="url(#lg)" stroke-width="2.5"/>
+                    <path d="M12 18V12a8 8 0 1116 0v6" stroke="url(#lg)" stroke-width="2.5" stroke-linecap="round"/>
+                    <circle cx="20" cy="28" r="3" fill="url(#lg)"/>
+                    <line x1="20" y1="31" x2="20" y2="34" stroke="url(#lg)" stroke-width="2.5" stroke-linecap="round"/>
+                    <defs><linearGradient id="lg" x1="4" y1="4" x2="36" y2="38" gradientUnits="userSpaceOnUse">
+                        <stop stop-color="#a78bfa"/><stop offset="1" stop-color="#6366f1"/>
+                    </linearGradient></defs>
+                </svg>
+                <h1>Secure<span class="accent">Key</span></h1>
+            </div>
+            <p class="tagline">Generate unbreakable passwords in seconds</p>
+        </header>
+
+        <div class="password-card" id="password-card">
+            <div class="password-display">
+                <output class="password-text" id="password-output" aria-live="polite">Click Generate ✦</output>
+                <button class="btn-copy" id="btn-copy" title="Copy to clipboard">
+                    <svg class="icon-copy" id="icon-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2"/>
+                        <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+                    </svg>
+                    <svg class="icon-check hidden" id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="strength-bar-wrap"><div class="strength-bar" id="strength-bar"></div></div>
+            <div class="strength-info">
+                <span class="strength-label" id="strength-label">—</span>
+                <span class="crack-time" id="crack-time"></span>
+            </div>
+        </div>
+
+        <div class="controls-card">
+            <div class="control-group">
+                <div class="control-header">
+                    <label for="length-slider" class="control-label">Password Length</label>
+                    <input type="number" class="length-input" id="length-input" value="16" min="4" max="32" aria-label="Password length input">
+                </div>
+                <input type="range" id="length-slider" min="4" max="32" value="16" class="slider">
+                <div class="slider-labels"><span>4</span><span>32</span></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="control-group">
+                <span class="control-label">Character Types</span>
+                <div class="checkbox-grid">
+                    <label class="checkbox-item" for="opt-lower">
+                        <input type="checkbox" id="opt-lower" checked>
+                        <span class="cb-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                        <span class="cb-info"><span class="cb-title">Lowercase</span><span class="cb-hint">a – z</span></span>
+                    </label>
+                    <label class="checkbox-item" for="opt-upper">
+                        <input type="checkbox" id="opt-upper" checked>
+                        <span class="cb-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                        <span class="cb-info"><span class="cb-title">Uppercase</span><span class="cb-hint">A – Z</span></span>
+                    </label>
+                    <label class="checkbox-item" for="opt-numbers">
+                        <input type="checkbox" id="opt-numbers" checked>
+                        <span class="cb-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                        <span class="cb-info"><span class="cb-title">Numbers</span><span class="cb-hint">0 – 9</span></span>
+                    </label>
+                    <label class="checkbox-item" for="opt-symbols">
+                        <input type="checkbox" id="opt-symbols" checked>
+                        <span class="cb-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                        <span class="cb-info"><span class="cb-title">Symbols</span><span class="cb-hint">!@#$%…</span></span>
+                    </label>
+                    <label class="checkbox-item checkbox-item--subtle" for="opt-exclude">
+                        <input type="checkbox" id="opt-exclude">
+                        <span class="cb-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+                        <span class="cb-info"><span class="cb-title">Exclude Ambiguous</span><span class="cb-hint">Skip confusing look-alike characters</span></span>
+                    </label>
+                    <div class="exclude-input-wrap" id="exclude-input-wrap">
+                        <input type="text" class="exclude-input" id="exclude-input" placeholder="Default: 0 O o l I 1 | { } [ ] ( ) ; : etc." spellcheck="false" aria-label="Custom characters to exclude">
+                        <span class="exclude-hint">Type specific characters to exclude, or leave blank for defaults</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <button class="btn-generate" id="btn-generate">
+                <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+                </svg>
+                <span>Generate Password</span>
+                <div class="btn-shimmer"></div>
+            </button>
+        </div>
+
+        <footer class="footer">
+            <p>🔒 Passwords are generated locally — nothing leaves your device.</p>
+            <div class="shortcuts-hint" id="shortcuts-hint">
+                <kbd>Space</kbd> Generate &nbsp;·&nbsp; <kbd>Ctrl</kbd>+<kbd>C</kbd> Copy
+            </div>
+        </footer>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>Copied to clipboard!</span>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
